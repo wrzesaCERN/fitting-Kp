@@ -1,0 +1,82 @@
+void preparehist(TH1D *hist)
+{
+  hist->SetMarkerStyle(20);
+  hist->SetMarkerSize(0.8);
+  hist->SetLineColor(kRed);
+  hist->SetMarkerColor(kRed);
+
+  hist->GetXaxis()->SetRange(0.0,0.45);
+  
+  hist->SetTitle(";k^{*} (GeV/#it{c});C(k^{*})");
+  
+}
+
+void plotfit()
+{
+ //  TH1D *cf = (TH1D *) gDirectory->Get("CfnReYlm00KmPcent1NonIdYlms;1");
+ //  if (cf == 0) {
+ //    cf = (TH1D *) gDirectory->Get("CfnReYlm00KpApcent1NonIdYlms;1");
+ //  }
+ //  if (cf == 0) {
+ //    cf = (TH1D *) gDirectory->Get("CfnReYlm00KpApcent2NonIdYlms;1");
+ //  }
+ //  if (cf == 0) {
+ //    cf = (TH1D *) gDirectory->Get("CfnReYlm00KmPcent2NonIdYlms;1");
+ //  }
+ //   if (cf == 0) 
+ //     {
+	
+ // cf = (TH1D *) gDirectory->Get("CfnReYlm00cylmKpAProtpcM0");
+ //     }
+
+  TH1D *cf1 = (TH1D *) gDirectory->Get("datarfpmbg");
+  TH1D *cf2 = (TH1D *) gDirectory->Get("datarfmpbg");
+  TH1D *cf3 = (TH1D *) gDirectory->Get("dataffpmbg");
+  TH1D *cf4 = (TH1D *) gDirectory->Get("dataffmpbg");
+
+  preparehist(cf1);
+  preparehist(cf2);
+  preparehist(cf3);
+  preparehist(cf4);
+  
+  TGraph *gr = (TGraph *) gDirectory->Get("grappfit;1");
+
+  TCanvas *canfit = new TCanvas("canfit","canfit",1200,950);
+
+  canfit->Divide(2,2,0.0001,0.0001);
+
+  canfit->cd(1);
+
+  cf1->Draw();
+
+  gr->SetLineColor(kBlue);
+  gr->SetLineStyle(2);
+  gr->Draw("CP");
+
+
+  canfit->cd(2);
+
+  cf2->Draw();
+
+  gr->SetLineColor(kBlue);
+  gr->SetLineStyle(2);
+  gr->Draw("CP");
+
+  canfit->cd(3);
+  
+  cf3->Draw();
+
+  gr->SetLineColor(kBlue);
+  gr->SetLineStyle(2);
+  gr->Draw("CP");
+
+
+  canfit->cd(4);
+
+  
+  cf4->Draw();
+
+  gr->SetLineColor(kBlue);
+  gr->SetLineStyle(2);
+  gr->Draw("CP");
+}

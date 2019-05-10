@@ -1,0 +1,12 @@
+As far as I understand ;)
+The "fitkpalltheorysircentallwgtbgfixnewalppcs" fits kaon-proton correlation functions for all the pairs of considered particles, all centralities and two magnetic fields. Abbreviation "wgt" in the name means that we use k* r* with correlation weights (this take into account that we observe a correlation between k* and r*, in theory, these two are not correlated). Abbreviation "bgfix" stands for that, in the beginning, we fit background for different pairs, centralities, fields and then we fix the obtained parameters. Abbreviation "ppcs" means that we take into account coulomb and strong interactions. 
+
+how to run it ? :)
+
+   make
+   ./fitkpalltheorysircentallwgtbgfixnewalppcs
+   root -l outchicentallwgt.root
+   .x plotpub.C
+
+
+//what else needs to be improved : todo.txt
