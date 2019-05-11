@@ -479,6 +479,9 @@ int main(int argc, char **argv)
 
   //same sign background fitting
   for (int icent=0; icent<7; icent++) {
+    normval_same[icent]=0;
+    lambdaval_same[icent]=0;
+    widthval_same[icent]=0;
     for (int ipair=0; ipair<4; ipair++) {
        if (docent[icent]) {
 
