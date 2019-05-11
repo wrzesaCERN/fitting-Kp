@@ -1,7 +1,7 @@
 przeliczane automatyczne re i im scatering length oraz source na samym początku 
  
-dopisać jedną centralność
+
 
 width -- skąd wartość 0.0041??????????? to było jakoś obliczone jakimiś macierzami?
 
-fitowanie początkowe tła. Średnia z 4 ??? teraz nadpisuje i bierzemy defacto jedną pod uwagę 
+

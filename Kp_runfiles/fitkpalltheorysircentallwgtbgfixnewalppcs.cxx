@@ -22,7 +22,7 @@ Double_t Im_scatlength[IMAX] = { 0.001, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 
 Double_t source[SMAX] = { 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0 }; 
 
 //docent - centralities which we take into acount (1-yes, 0-no)
-Int_t docent[6] = { 1, 1, 1, 1, 1, 1};
+Int_t docent[7] = { 1, 1, 1, 1, 1, 1, 1};
 
 //th_oppo - calculated theoretical correlation functions (for opposite sign pairs)
 //th_same - calculated theoretical correlation functions (for same sign pairs)
@@ -35,15 +35,15 @@ TGraph *th_same_smr[RMAX];
 
 //below data
 //data: all pairs; both fields: negative - mf, positive - pf; particle charge : plus -p and minus - m (i.e. pm -> kaon minus and antideuteron)
-TH1D *cdatapfpm[6];
-TH1D *cdatapfmp[6];
-TH1D *cdatapfpp[6];
-TH1D *cdatapfmm[6];
+TH1D *cdatapfpm[7];
+TH1D *cdatapfmp[7];
+TH1D *cdatapfpp[7];
+TH1D *cdatapfmm[7];
 
-TH1D *cdatamfpm[6];
-TH1D *cdatamfmp[6];
-TH1D *cdatamfpp[6];
-TH1D *cdatamfmm[6];
+TH1D *cdatamfpm[7];
+TH1D *cdatamfmp[7];
+TH1D *cdatamfpp[7];
+TH1D *cdatamfmm[7];
 
 //Gaussian smearing function MR
 TGraph *smearmr(TGraph *cfppdv)
@@ -215,26 +215,26 @@ void myfuncf(Int_t& i, Double_t *x, Double_t &f, Double_t *par, Int_t iflag)
   Double_t Rev = par[1];
   Double_t Imv = par[2];
 
-  Double_t Lvs[6];//bg height
-  Double_t Rvs[6];//bg width
-  Double_t Svs[6];//size
+  Double_t Lvs[7];//bg height
+  Double_t Rvs[7];//bg width
+  Double_t Svs[7];//size
 
-  Double_t Nvs[48];//normalization, different for each exp. function
+  Double_t Nvs[56];//normalization, different for each exp. function
 
-  for (int iter=0; iter<6; iter++) {
+  for (int iter=0; iter<7; iter++) {
     Lvs[iter] = par[3+iter*3+0];
     Rvs[iter] = par[3+iter*3+1];
     Svs[iter] = par[3+iter*3+2];
   }
 
-  for (int iter=0; iter<48; iter++) {
-    Nvs[iter] = par[21+iter];
+  for (int iter=0; iter<56; iter++) {
+    Nvs[iter] = par[24+iter];
   }
 
-  Double_t bgscales[6];
+  Double_t bgscales[7];
   
-  for (int iter=0; iter<6; iter++) {
-    bgscales[iter] = par[69+iter];
+  for (int iter=0; iter<7; iter++) {
+    bgscales[iter] = par[80+iter];
   }
   
   Double_t chi2 = 0.0;
@@ -242,7 +242,7 @@ void myfuncf(Int_t& i, Double_t *x, Double_t &f, Double_t *par, Int_t iflag)
   Double_t vals[500];//interpolated theory
 
   //loop over centralities
-  for (int icent=0; icent<6; icent++) {
+  for (int icent=0; icent<7; icent++) {
     if (docent[icent]) {
 
       //theoretical interpolation for a given fit point
@@ -257,14 +257,14 @@ void myfuncf(Int_t& i, Double_t *x, Double_t &f, Double_t *par, Int_t iflag)
       //the only difference is additional scaling of the background magnitude bgscales
       getlinexth_same(Svs[icent], vals);
       
-      chi2 += getchi2(cdatamfpp[icent], vals, Nvs[24+icent*4+0], Pv, bgscales[icent]*Lvs[icent], Rvs[icent]);
-      chi2 += getchi2(cdatamfmm[icent], vals, Nvs[24+icent*4+1], Pv, bgscales[icent]*Lvs[icent], Rvs[icent]);
-      chi2 += getchi2(cdatapfpp[icent], vals, Nvs[24+icent*4+2], Pv, bgscales[icent]*Lvs[icent], Rvs[icent]);
-      chi2 += getchi2(cdatapfmm[icent], vals, Nvs[24+icent*4+3], Pv, bgscales[icent]*Lvs[icent], Rvs[icent]);
+      chi2 += getchi2(cdatamfpp[icent], vals, Nvs[28+icent*4+0], Pv, bgscales[icent]*Lvs[icent], Rvs[icent]);
+      chi2 += getchi2(cdatamfmm[icent], vals, Nvs[28+icent*4+1], Pv, bgscales[icent]*Lvs[icent], Rvs[icent]);
+      chi2 += getchi2(cdatapfpp[icent], vals, Nvs[28+icent*4+2], Pv, bgscales[icent]*Lvs[icent], Rvs[icent]);
+      chi2 += getchi2(cdatapfmm[icent], vals, Nvs[28+icent*4+3], Pv, bgscales[icent]*Lvs[icent], Rvs[icent]);
     }
   }
 
-  f = chi2; //chi2 for all 48 functions
+  f = chi2; //chi2 for all 56 functions
 }
 
 
@@ -369,6 +369,12 @@ int main(int argc, char **argv)
   cdatapfmp[5] = (TH1D *) indatafilepfmp->Get("CfnReYlm00cylmKmProtpcM5");
   cdatapfpm[5] = (TH1D *) indatafilepfpm->Get("CfnReYlm00cylmKpAProtpcM5");
 
+  // Centrality 6
+  cdatamfmp[6] = (TH1D *) indatafilemfmp->Get("CfnReYlm00cylmKmProtpcM6");
+  cdatamfpm[6] = (TH1D *) indatafilemfpm->Get("CfnReYlm00cylmKpAProtpcM6");
+  cdatapfmp[6] = (TH1D *) indatafilepfmp->Get("CfnReYlm00cylmKmProtpcM6");
+  cdatapfpm[6] = (TH1D *) indatafilepfpm->Get("CfnReYlm00cylmKpAProtpcM6");
+
   // Data on same-sign correlations
   
   TFile *indatafilemfpp = new TFile("corrs.alice.5TeV.1904.tpconly.minus.root");
@@ -412,24 +418,35 @@ int main(int argc, char **argv)
   cdatapfpp[5] = (TH1D *) indatafilepfpp->Get("CfnReYlm00cylmKpProtpcM5");
   cdatapfmm[5] = (TH1D *) indatafilepfmm->Get("CfnReYlm00cylmKmAProtpcM5");
 
+  // Centrality 6
+  cdatamfpp[6] = (TH1D *) indatafilemfpp->Get("CfnReYlm00cylmKpProtpcM6");
+  cdatamfmm[6] = (TH1D *) indatafilemfmm->Get("CfnReYlm00cylmKmAProtpcM6");
+  cdatapfpp[6] = (TH1D *) indatafilepfpp->Get("CfnReYlm00cylmKpProtpcM6");
+  cdatapfmm[6] = (TH1D *) indatafilepfmm->Get("CfnReYlm00cylmKmAProtpcM6");
 
   Double_t xmax = cdatamfmp[0]->GetXaxis()->GetXmax();
 
   double purval = 0.75;
 
 //"normalizacja + lamda*exp(-x*x*width*width)"
-  double normval_oppo[6];
-  double lambdaval_oppo[6];
-  double widthval_oppo[6];
-  
+  double normval_oppo[7];
+  double lambdaval_oppo[7];
+  double widthval_oppo[7];
+
+  double normval_oppo_fix[28];  
+
   TF1 *fnorm = new TF1("fnorm","[0]");//function used for normalization fitting, high k*
   TF1 *fgauss = new TF1("fgauss","[0] + [1]*exp(-x*x*[2]*[2])"); //function used for Gaussian fitting, medium k*
 
-  double normval_oppo_fix[24];
 
   //1st step - fitting of background only to fix normalization and background parameters
   //opposite sign fitting
-  for (int icent=0; icent<6; icent++) {
+
+
+  for (int icent=0; icent<7; icent++) {
+    normval_oppo[icent]=0;
+    lambdaval_oppo[icent]=0;
+    widthval_oppo[icent]=0;
     for (int ipair=0; ipair<4; ipair++) {
        if (docent[icent]) {
 
@@ -443,24 +460,25 @@ int main(int argc, char **argv)
       //  fgauss->FixParameter(2,2.0);
       cdatamfmp[icent]->Fit(fgauss, "","",0.35, xmax); //k* fit of background slope, medium k* region
       normval_oppo_fix[icent*4+ipair] = fgauss->GetParameter(0);
-
+      cout << "tu" << icent << " " << ipair << endl;
       //saving background fits
-      normval_oppo[icent] = fgauss->GetParameter(0);
-      lambdaval_oppo[icent] = fgauss->GetParameter(1);
-      widthval_oppo[icent] = fgauss->GetParameter(2);
+      normval_oppo[icent] += fgauss->GetParameter(0)/4;
+      lambdaval_oppo[icent] += fgauss->GetParameter(1)/4;
+      widthval_oppo[icent] += fgauss->GetParameter(2)/4;
+      cout << "sie cos dzieje " << icent << " " << ipair << endl;
       }
     }
   }
 
   
-  double normval_same[6];
-  double lambdaval_same[6];
-  double widthval_same[6];
+  double normval_same[7];
+  double lambdaval_same[7];
+  double widthval_same[7];
   
-  double normval_same_fix[24];
+  double normval_same_fix[28];
 
   //same sign background fitting
-  for (int icent=0; icent<6; icent++) {
+  for (int icent=0; icent<7; icent++) {
     for (int ipair=0; ipair<4; ipair++) {
        if (docent[icent]) {
 
@@ -476,9 +494,9 @@ int main(int argc, char **argv)
           normval_same_fix[icent*4+ipair] = fnorm->GetParameter(0);
 
           //saving background fits
-          normval_same[icent] = fgauss->GetParameter(0);
-          lambdaval_same[icent] = fgauss->GetParameter(1);
-          widthval_same[icent] = fgauss->GetParameter(2);
+          normval_same[icent] += fgauss->GetParameter(0)/4;
+          lambdaval_same[icent] += fgauss->GetParameter(1)/4;
+          widthval_same[icent] += fgauss->GetParameter(2)/4;
        }
     }
   }
@@ -495,9 +513,9 @@ int main(int argc, char **argv)
 
   int miniChi_Re, miniChi_Im;
   int miniChi_Re_sum=0, miniChi_Im_sum=0, centcount=0;
-  int miniChi_Re_s[6], miniChi_Im_s[6], miniChi_size[6];
+  int miniChi_Re_s[7], miniChi_Im_s[7], miniChi_size[7];
 
-  for (int icent=0; icent<6; icent++) {
+  for (int icent=0; icent<7; icent++) {
     miniChi_Re_s[icent] = 1;
     miniChi_Im_s[icent] = 1;
     miniChi_size[icent] = 1;
@@ -507,7 +525,7 @@ int main(int argc, char **argv)
 
   //2nd step, we calculate chi2 between precomputed theoretical function (not interpolated but MR smeared) and experimental ones, background and normalization assumed from the previous fit
   //this is to calculate starting values for final fitting
-  for (int icent=0; icent<6; icent++) {
+  for (int icent=0; icent<7; icent++) {
     if (docent[icent]) {
       minchi = 1e9;
       for (int is=0; is<SMAX; is++) {
@@ -543,7 +561,7 @@ int main(int argc, char **argv)
   cout << "Minimum chi " << minchi << endl;
   cout << "Re Im Size " << Re_scatlength[miniChi_Re] << " " << Im_scatlength[miniChi_Im] << " ";
 
-  for (int icent=0; icent<6; icent++)
+  for (int icent=0; icent<7; icent++)
     if (docent[icent])
       cout << "Centrality " << icent << "  " << source[miniChi_size[icent]] << endl;
 
@@ -551,7 +569,7 @@ int main(int argc, char **argv)
   if (miniChi_Re== RMAX-1) miniChi_Re--;
   if (miniChi_Im == IMAX-1) miniChi_Im--;
   
-  for (int icent=0; icent<6; icent++)
+  for (int icent=0; icent<7; icent++)
     if (miniChi_size[icent] == SMAX-1) miniChi_size[icent]--;
 
   double vals[500];
@@ -564,7 +582,7 @@ int main(int argc, char **argv)
   
   cout << "Setting values " << normval_oppo[0] << " " << lambdaval_oppo[0] << " " << widthval_oppo[0] << " " << purval << endl;
   
-  TVirtualFitter *fitter=TVirtualFitter::Fitter(0, 75);
+  TVirtualFitter *fitter=TVirtualFitter::Fitter(0,87);
   fitter->SetFCN(myfuncf);
   fitter->SetParameter(0,  "Purity"  ,purval        ,0.0001,0.2,   0.85);
   fitter->SetParameter(1,  "Ref0"    ,Re_scatlength[miniChi_Re]  ,0.0001,-5.0, 5.0);
@@ -573,7 +591,7 @@ int main(int argc, char **argv)
   // fitter->FixParameter(2);
   
   
-  for (int icent=0; icent<6; icent++) {
+  for (int icent=0; icent<7; icent++) {
     fitter->SetParameter(3+icent*3+0,  Form("Lambda%i", icent)  ,TMath::Abs(lambdaval_same[icent])   ,0.001, 0.0,   0.1);
     fitter->SetParameter(3+icent*3+1,  Form("Width%i", icent)   ,TMath::Abs(widthval_same[icent])   ,0.001, 1.0,   10.0);
     fitter->SetParameter(3+icent*3+2,  Form("Radius%i", icent)  ,source[miniChi_size[icent]]  ,0.01  ,0.9, 8.0);
@@ -589,30 +607,30 @@ int main(int argc, char **argv)
   }
 
   //normalizations, set from background fit
-  for (int icent=0; icent<6; icent++) {
+  for (int icent=0; icent<7; icent++) {
     for (int ipair=0; ipair<4; ipair++) {
       //      fitter->SetParameter(21+icent*4+ipair,  Form("Norm%i%i", icent, ipair)    ,normval_oppo[icent]    ,0.001, 0.9,   1.1);
-      fitter->SetParameter(21+icent*4+ipair,  Form("Norm%i%i", icent, ipair)    ,normval_oppo_fix[icent*4+ipair]    ,0.001, 0.9,   1.1);  
+      fitter->SetParameter(24+icent*4+ipair,  Form("Norm%i%i", icent, ipair)    ,normval_oppo_fix[icent*4+ipair]    ,0.001, 0.9,   1.1);  
       if (!docent[icent])
-         fitter->FixParameter(21+icent*4+ipair);
-      fitter->FixParameter(21+icent*4+ipair);
+         fitter->FixParameter(24+icent*4+ipair);
+      fitter->FixParameter(24+icent*4+ipair);
     }
   }
   
-  for (int icent=0; icent<6; icent++) {
+  for (int icent=0; icent<7; icent++) {
     for (int ipair=0; ipair<4; ipair++) {
       //      fitter->SetParameter(45+icent*4+ipair,  Form("Normss%i%i", icent, ipair)    ,normval_same[icent]    ,0.001, 0.9,   1.1);
-      fitter->SetParameter(45+icent*4+ipair,  Form("Normss%i%i", icent, ipair)    ,normval_same_fix[icent*4+ipair]    ,0.001, 0.9,   1.1);      
+      fitter->SetParameter(52+icent*4+ipair,  Form("Normss%i%i", icent, ipair)    ,normval_same_fix[icent*4+ipair]    ,0.001, 0.9,   1.1);      
       if (!docent[icent])
-	fitter->FixParameter(45+icent*4+ipair);
-      fitter->FixParameter(45+icent*4+ipair);
+	fitter->FixParameter(52+icent*4+ipair);
+      fitter->FixParameter(52+icent*4+ipair);
     }
   }
 
   //fixing of background width and height
   //  fitter->SetParameter(69, "BGsstoul", lambdaval_same[0]/lambdaval_oppo[0], 0.001, 0.1, 2.0);
-  for (int icent=0; icent<6; icent++) 
-    fitter->SetParameter(69+icent, Form("BGsstoul%i", icent), 0.6, 0.001, 0.1, 5.0);
+  for (int icent=0; icent<7; icent++) 
+    fitter->SetParameter(80+icent, Form("BGsstoul%i", icent), 0.6, 0.001, 0.1, 5.0);
   
   // fitter->FixParameter(69+icent);
   
@@ -693,28 +711,28 @@ int main(int argc, char **argv)
   // double fitnrm6 = fitter->GetParameter(16);
 
   //  double fitnorms[6];
-  double fit_lambda[6];
-  double fit_width[6];
-  double fit_radius[6];
+  double fit_lambda[7];
+  double fit_width[7];
+  double fit_radius[7];
 
-  double fit_normScales_oppo[4*6];
-  double fit_normScales_same[4*6];
+  double fit_normScales_oppo[4*7];
+  double fit_normScales_same[4*7];
 
-  for (int icent=0; icent<6; icent++) {
+  for (int icent=0; icent<7; icent++) {
     fit_lambda[icent] = fitter->GetParameter(3+icent*3+0);
     fit_width[icent] = fitter->GetParameter(3+icent*3+1);
     fit_radius[icent] = fitter->GetParameter(3+icent*3+2);
 
     for (int ipair=0; ipair<4; ipair++) {
-      fit_normScales_oppo[icent*4+ipair] = fitter->GetParameter(21+icent*4+ipair);
-      fit_normScales_same[icent*4+ipair] = fitter->GetParameter(45+icent*4+ipair);
+      fit_normScales_oppo[icent*4+ipair] = fitter->GetParameter(24+icent*4+ipair);
+      fit_normScales_same[icent*4+ipair] = fitter->GetParameter(52+icent*4+ipair);
     }
   }
 
-  double fit_baScales[6];
+  double fit_baScales[7];
 
-  for (int icent=0; icent<6; icent++) {
-    fit_baScales[icent] = fitter->GetParameter(69+icent);
+  for (int icent=0; icent<7; icent++) {
+    fit_baScales[icent] = fitter->GetParameter(80+icent);
   }
   
   double fiterr_puri = fitter->GetParError(0); 
@@ -734,28 +752,28 @@ int main(int argc, char **argv)
   // double fitnrm6 = fitter->GetParError(16);
 
   // double fitnorms[6];
-  double fiterr_lambda[6];
-  double fiterr_wdth[6];
-  double fiterr_radius[6];
+  double fiterr_lambda[7];
+  double fiterr_wdth[7];
+  double fiterr_radius[7];
 
-  double fiterr_normScales_oppo[4*6];//normalization errors for opposite sign
-  double fiterr_normScales_same[4*6];
+  double fiterr_normScales_oppo[4*7];//normalization errors for opposite sign
+  double fiterr_normScales_same[4*7];
 
-  for (int icent=0; icent<6; icent++) {
+  for (int icent=0; icent<7; icent++) {
     fiterr_lambda[icent] = fitter->GetParError(3+icent*3+0);
     fiterr_wdth[icent] = fitter->GetParError(3+icent*3+1);
     fiterr_radius[icent] = fitter->GetParError(3+icent*3+2);
 
     for (int ipair=0; ipair<4; ipair++) {
-      fiterr_normScales_oppo[icent*4+ipair] = fitter->GetParError(21+icent*4+ipair);
-      fiterr_normScales_same[icent*4+ipair] = fitter->GetParError(45+icent*4+ipair);
+      fiterr_normScales_oppo[icent*4+ipair] = fitter->GetParError(24+icent*4+ipair);
+      fiterr_normScales_same[icent*4+ipair] = fitter->GetParError(52+icent*4+ipair);
     }
   }
 
-  double fiterr_bgScales[6];
+  double fiterr_bgScales[7];
 
-  for (int icent=0; icent<6; icent++) {
-    fiterr_bgScales[icent] = fitter->GetParError(69+icent);
+  for (int icent=0; icent<7; icent++) {
+    fiterr_bgScales[icent] = fitter->GetParError(80+icent);
   }
     
   cout << "Final paramerers:" << endl;
@@ -763,11 +781,11 @@ int main(int argc, char **argv)
   cout << "Re f0           : " << fit_Ref0 << " +/- " << fiterr_Ref0 <<  endl;
   cout << "Im f0           : " << fit_Imf0 << " +/- " << fiterr_Imf0 <<  endl;
 
-  for (int icent=0; icent<6; icent++) {
+  for (int icent=0; icent<7; icent++) {
     cout << "Radius C" << icent << "     :" << fit_radius[icent]  << " +/- " << fiterr_radius[icent] << endl;
   }
 
-  for (int icent=0; icent<6; icent++) {
+  for (int icent=0; icent<7; icent++) {
     cout << "Backgroung parameters centrality " << icent << endl;
     cout << "alfa width " << fit_lambda[icent] << " " << fit_width[icent] << endl;
     cout << "Normalizations :"
@@ -785,16 +803,16 @@ int main(int argc, char **argv)
 
   }
 
-  for (int icent=0; icent<6; icent++) {
+  for (int icent=0; icent<7; icent++) {
     cout << "Background ss to ul scale " << icent << " : " << fit_baScales[icent] << " +/- " << fiterr_bgScales[icent] << endl;
   }
   
   outfile->cd();
 
-  TGraph *grcfits_oppo[6];
-  TGraph *grcfits_same[6];
+  TGraph *grcfits_oppo[7];
+  TGraph *grcfits_same[7];
   
-  for (int icent=0; icent<6; icent++) {
+  for (int icent=0; icent<7; icent++) {
     if (docent[icent]) {
       
       getlinexth_oppo(fit_Ref0, fit_Imf0, fit_radius[icent], vals);    
@@ -819,19 +837,19 @@ int main(int argc, char **argv)
   }
   
 
-  TH1D *cfitmfpmlin[6];
-  TH1D *cfitmfmplin[6];
-  TH1D *cfitpfpmlin[6];
-  TH1D *cfitpfmplin[6];
+  TH1D *cfitmfpmlin[7];
+  TH1D *cfitmfmplin[7];
+  TH1D *cfitpfpmlin[7];
+  TH1D *cfitpfmplin[7];
 
-  TH1D *cfitmfpplin[6];
-  TH1D *cfitmfmmlin[6];
-  TH1D *cfitpfpplin[6];
-  TH1D *cfitpfmmlin[6];
+  TH1D *cfitmfpplin[7];
+  TH1D *cfitmfmmlin[7];
+  TH1D *cfitpfpplin[7];
+  TH1D *cfitpfmmlin[7];
 
   double ksv, bgv;//k* and background values 
   
-  for (int icent=0; icent<6; icent++) {
+  for (int icent=0; icent<7; icent++) {
     if (docent[icent]) {
     
       cfitmfpmlin[icent] = new TH1D(*cdatamfpm[icent]);
@@ -935,17 +953,17 @@ int main(int argc, char **argv)
     }
   }
 
-  Double_t fvx[75];
-  Double_t fvy[75];
-  Double_t fve[75];
+  Double_t fvx[87];
+  Double_t fvy[87];
+  Double_t fve[87];
 
-  for (int ipar=0; ipar<76; ipar++) {
+  for (int ipar=0; ipar<88; ipar++) {
     fvx[ipar] = ipar;
     fvy[ipar] = fitter->GetParameter(ipar);
     fve[ipar] = fitter->GetParError(ipar);
   }
 
-  TGraphErrors *fitresult = new TGraphErrors(75, fvx, fvy, NULL, fve);
+  TGraphErrors *fitresult = new TGraphErrors(87, fvx, fvy, NULL, fve);
   fitresult->SetName("fitresult");
   fitresult->Write();
   

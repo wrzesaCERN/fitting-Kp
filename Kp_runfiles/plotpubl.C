@@ -115,7 +115,7 @@ void plotpubl()
   double leglow = 0.6;
   double legtop = 0.95;
   
-  for (int icent=0; icent<6; icent++) {
+  for (int icent=0; icent<7; icent++) {
   
     cf1 = (TH1D *) gDirectory->Get(Form("datamfpmbgC%i", icent));
     cf2 = (TH1D *) gDirectory->Get(Form("datamfmpbgC%i", icent));
@@ -176,7 +176,7 @@ void plotpubl()
       leg0->SetBorderSize(0);
 
       leg0->AddEntry(cf1, "p K^{-} field rf", "");
-      leg0->AddEntry(cf1, Form("Norm: %.5f #pm %.5f", grvalerr->GetY()[21+4*icent], grvalerr->GetEY()[21+4*icent]), "");
+      leg0->AddEntry(cf1, Form("Norm: %.5f #pm %.5f", grvalerr->GetY()[24+4*icent], grvalerr->GetEY()[24+4*icent]), "");
       leg0->AddEntry(cf1, Form("Lmbd: %.5f #pm %.5f", grvalerr->GetY()[3+3*icent], grvalerr->GetEY()[3+3*icent]), "");
       leg0->AddEntry(cf1, Form("Wdth: %.5f #pm %.5f", grvalerr->GetY()[4+3*icent], grvalerr->GetEY()[4+3*icent]), "");
       
@@ -190,7 +190,7 @@ void plotpubl()
       leg1->SetFillStyle(0);
       
       leg1->AddEntry(cf1, "#bar{p} K^{+} field rf", "");
-      leg1->AddEntry(cf1, Form("Norm: %.5f #pm %.5f", grvalerr->GetY()[22+4*icent], grvalerr->GetEY()[22+4*icent]), "");
+      leg1->AddEntry(cf1, Form("Norm: %.5f #pm %.5f", grvalerr->GetY()[25+4*icent], grvalerr->GetEY()[25+4*icent]), "");
       leg1->AddEntry(cf1, Form("Lmbd: %.5f #pm %.5f", grvalerr->GetY()[3+3*icent], grvalerr->GetEY()[3+3*icent]), "");
       leg1->AddEntry(cf1, Form("Wdth: %.5f #pm %.5f", grvalerr->GetY()[4+3*icent], grvalerr->GetEY()[4+3*icent]), "");
       
@@ -204,7 +204,7 @@ void plotpubl()
       leg2->SetFillStyle(0);
 
       leg2->AddEntry(cf1, "p K^{-} field ff", "");
-      leg2->AddEntry(cf1, Form("Norm: %.5f #pm %.5f", grvalerr->GetY()[23+4*icent], grvalerr->GetEY()[23+4*icent]), "");
+      leg2->AddEntry(cf1, Form("Norm: %.5f #pm %.5f", grvalerr->GetY()[26+4*icent], grvalerr->GetEY()[26+4*icent]), "");
       leg2->AddEntry(cf1, Form("Lmbd: %.5f #pm %.5f", grvalerr->GetY()[3+3*icent], grvalerr->GetEY()[3+3*icent]), "");
       leg2->AddEntry(cf1, Form("Wdth: %.5f #pm %.5f", grvalerr->GetY()[4+3*icent], grvalerr->GetEY()[4+3*icent]), "");
       
@@ -218,7 +218,7 @@ void plotpubl()
       leg3->SetFillStyle(0);
       
       leg3->AddEntry(cf1, "#bar{p} K^{+} field ff", "");
-      leg3->AddEntry(cf1, Form("Norm: %.5f #pm %.5f", grvalerr->GetY()[24+4*icent], grvalerr->GetEY()[24+4*icent]), "");
+      leg3->AddEntry(cf1, Form("Norm: %.5f #pm %.5f", grvalerr->GetY()[27+4*icent], grvalerr->GetEY()[27+4*icent]), "");
       leg3->AddEntry(cf1, Form("Lmbd: %.5f #pm %.5f", grvalerr->GetY()[3+3*icent], grvalerr->GetEY()[3+3*icent]), "");
       leg3->AddEntry(cf1, Form("Wdth: %.5f #pm %.5f", grvalerr->GetY()[4+3*icent], grvalerr->GetEY()[4+3*icent]), "");
       
@@ -313,7 +313,7 @@ void plotpubl()
       leg0->SetBorderSize(0);
 
       leg0->AddEntry(cf1, "K^{+} p field rf", "");
-      leg0->AddEntry(cf1, Form("Norm: %.5f #pm %.5f", grvalerr->GetY()[45+4*icent], grvalerr->GetEY()[45+4*icent]), "");
+      leg0->AddEntry(cf1, Form("Norm: %.5f #pm %.5f", grvalerr->GetY()[52+4*icent], grvalerr->GetEY()[52+4*icent]), "");
       leg0->AddEntry(cf1, Form("Lmbd: %.5f #pm %.5f", grvalerr->GetY()[3+3*icent], grvalerr->GetEY()[3+3*icent]), "");
       leg0->AddEntry(cf1, Form("Wdth: %.5f #pm %.5f", grvalerr->GetY()[4+3*icent], grvalerr->GetEY()[4+3*icent]), "");
       
@@ -326,7 +326,7 @@ void plotpubl()
       leg1->SetBorderSize(0);
 
       leg1->AddEntry(cf1, "K^{-} #bar{p} field rf", "");
-      leg1->AddEntry(cf1, Form("Norm: %.5f #pm %.5f", grvalerr->GetY()[46+4*icent], grvalerr->GetEY()[46+4*icent]), "");
+      leg1->AddEntry(cf1, Form("Norm: %.5f #pm %.5f", grvalerr->GetY()[53+4*icent], grvalerr->GetEY()[53+4*icent]), "");
       leg1->AddEntry(cf1, Form("Lmbd: %.5f #pm %.5f", grvalerr->GetY()[3+3*icent], grvalerr->GetEY()[3+3*icent]), "");
       leg1->AddEntry(cf1, Form("Wdth: %.5f #pm %.5f", grvalerr->GetY()[4+3*icent], grvalerr->GetEY()[4+3*icent]), "");
       
@@ -339,7 +339,7 @@ void plotpubl()
       leg2->SetBorderSize(0);
 
       leg2->AddEntry(cf1, "K^{+} p field ff", "");
-      leg2->AddEntry(cf1, Form("Norm: %.5f #pm %.5f", grvalerr->GetY()[47+4*icent], grvalerr->GetEY()[47+4*icent]), "");
+      leg2->AddEntry(cf1, Form("Norm: %.5f #pm %.5f", grvalerr->GetY()[54+4*icent], grvalerr->GetEY()[54+4*icent]), "");
       leg2->AddEntry(cf1, Form("Lmbd: %.5f #pm %.5f", grvalerr->GetY()[3+3*icent], grvalerr->GetEY()[3+3*icent]), "");
       leg2->AddEntry(cf1, Form("Wdth: %.5f #pm %.5f", grvalerr->GetY()[4+3*icent], grvalerr->GetEY()[4+3*icent]), "");
       
@@ -352,7 +352,7 @@ void plotpubl()
       leg3->SetBorderSize(0);
 
       leg3->AddEntry(cf1, " K^{-} #bar{p} field ff", "");
-      leg3->AddEntry(cf1, Form("Norm: %.5f #pm %.5f", grvalerr->GetY()[48+4*icent], grvalerr->GetEY()[48+4*icent]), "");
+      leg3->AddEntry(cf1, Form("Norm: %.5f #pm %.5f", grvalerr->GetY()[55+4*icent], grvalerr->GetEY()[55+4*icent]), "");
       leg3->AddEntry(cf1, Form("Lmbd: %.5f #pm %.5f", grvalerr->GetY()[3+3*icent], grvalerr->GetEY()[3+3*icent]), "");
       leg3->AddEntry(cf1, Form("Wdth: %.5f #pm %.5f", grvalerr->GetY()[4+3*icent], grvalerr->GetEY()[4+3*icent]), "");
       
@@ -364,7 +364,7 @@ void plotpubl()
       legrad->SetFillColor(0);
       legrad->SetBorderSize(0);
 
-      legrad->AddEntry(cf1, Form("BGScale = %.3f #pm %.3f", grvalerr->GetY()[69+icent], grvalerr->GetEY()[69+icent]), "");
+      legrad->AddEntry(cf1, Form("BGScale = %.3f #pm %.3f", grvalerr->GetY()[80+icent], grvalerr->GetEY()[80+icent]), "");
 
       legrad->Draw();
       
